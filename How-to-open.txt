@@ -1,0 +1,13 @@
+Matter Tracker
+==============
+
+1. Download this repo: Code → Download ZIP.
+2. Unzip.
+3. Right-click Open-Matter-Tracker.command → Open → Open.
+4. Safari opens the app.
+
+Needs Python 3 (already on macOS).
+If missing: xcode-select --install
+
+High Court, SAT and NCLT are under New matter.
+Orders save to Desktop → Bombay HC matters

@@ -1,0 +1,24 @@
+#!/bin/bash
+BASE="http://127.0.0.1:8765"
+DIR="$(cd "$(dirname "$0")/../Resources" && pwd)"
+PY="$(command -v python3 || echo /usr/bin/python3)"
+
+if ! "$PY" -c 'import http.server' >/dev/null 2>&1; then
+  osascript -e 'display alert "Python 3 needed" message "Open Terminal and run:\n\nxcode-select --install\n\nThen open Matter Tracker again."'
+  exit 1
+fi
+
+STARTED=0
+if ! curl -s -o /dev/null --max-time 1 "$BASE/api/health"; then
+  "$PY" "$DIR/app.py" --serve >/dev/null 2>&1 &
+  STARTED=$!
+  for i in $(seq 1 40); do
+    curl -s -o /dev/null --max-time 1 "$BASE/api/health" && break
+    sleep 0.2
+  done
+fi
+
+open "$BASE/"
+if [ "$STARTED" != "0" ]; then
+  wait "$STARTED"
+fi
